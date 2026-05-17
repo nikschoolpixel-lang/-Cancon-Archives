@@ -23,12 +23,13 @@
     window.$docsify = {
       name: 'Cancon Archives',
       repo: '',
-      // Включаем встроенный поиск по статьям
       search: 'auto', 
-      // Включаем боковое меню из файла _sidebar.md
       loadSidebar: true,
-      subMaxLevel: 2
+      subMaxLevel: 2,
+      alias: {
+        '/.*/_sidebar.md': '/_sidebar.md' // Фикс, чтобы меню было видно на всех страницах
     }
+  }
   </script>
   <!-- Главные скрипты движка Docsify -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
