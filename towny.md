@@ -900,6 +900,7 @@
 | `/tw toggle revertblockexpl` | Вкл/выкл восстановление после взрывов блоков (TNT и т.п.) в дикой местности. |
 | `/tw toggle warallowed` | Вкл/выкл работу плагинов войны в этом мире. |
 | `/tw toggle plotcleardelete` | Вкл/выкл возможность использовать команду `/plot clear`. |
+
 | `/tw toggle unclaimblockdelete {on|off}` | Вкл/выкл удаление блоков при снятии привата с участка. |
 | `/tw toggle unclaimentitydelete {on|off}` | Вкл/выкл удаление сущностей при снятии привата с участка. |
 | `/tw toggle wildernessuse {on|off}` | Вкл/выкл возможности строить/ломать/использовать/включать в диком мире. |
