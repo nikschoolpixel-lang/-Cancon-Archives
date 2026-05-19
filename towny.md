@@ -3,10 +3,10 @@
 
 ### 🔗 Ссылки на официальный гитхаб плагина (на английском):
 
-> [Полный список команд](https://github.com/TownyAdvanced/Towny/wiki/Towny-Commands)
-> [Подробный разбор возможностей Towny](https://github.com/TownyAdvanced/Towny/wiki/How-Towny-Works)
+[Полный список команд](https://github.com/TownyAdvanced/Towny/wiki/Towny-Commands)
+[Подробный разбор возможностей Towny](https://github.com/TownyAdvanced/Towny/wiki/How-Towny-Works)
 
-> [Сразу перейти к разбору основных понятий](# 🏡 Как работает Towny)
+> [Сразу перейти к разбору основных понятий](#🏡-Как-работает-towny)
 
 ---
 
