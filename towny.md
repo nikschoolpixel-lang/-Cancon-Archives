@@ -1183,8 +1183,41 @@ Towny позволяет настраивать схему именования 
 
 Пример структуры уровня города:
 
-00000
-000000
+```
+  - numResidents: 1
+    namePrefix: ''
+    namePostfix: ' (Settlement)'
+    mayorPrefix: 'Hermit '
+    mayorPostfix: ''
+    townBlockBuyBonusLimit: 0
+    townBlockLimit: 16
+    upkeepModifier: 1.0
+    townOutpostLimit: 0
+    debtCapModifier: 1.0
+    peacefulCostMultiplier: 1.0
+    bankCapModifier: 1.0
+    resourceProductionModifier: 1.0
+    townBlockTypeLimits:
+    - shop: 2
+    - arena: 2
+
+  - numResidents: 2
+    namePrefix: ''
+    namePostfix: ' (Hamlet)'
+    mayorPrefix: 'Chief '
+    mayorPostfix: ''
+    townBlockBuyBonusLimit: 0
+    townBlockLimit: 32
+    upkeepModifier: 1.0
+    townOutpostLimit: 1
+    debtCapModifier: 1.0
+    peacefulCostMultiplier: 1.0
+    bankCapModifier: 1.0
+    resourceProductionModifier: 1.0
+    townBlockTypeLimits:
+    - shop: 5
+    - arena: 4
+```
 
 ### Пояснение переменных `town_level`
 
@@ -2296,3 +2329,340 @@ Towny автоматически защищает блоки благодаря 
 ## 🔥 Towny War
 
 Существует несколько военных аддонов для Towny. Подробнее на [War Hub](https://github.com/TownyAdvanced/Towny/wiki/War-Hub).
+
+## 💬 Чат (Chat)
+
+### Поддержка PlaceHolderAPI
+
+Towny предоставляет плейсхолдеры для PlaceholderAPI, список которых доступен на [этой странице вики](https://github.com/TownyAdvanced/Towny/wiki/PlaceholderAPI).
+
+### TownyChat.jar
+
+Для отображения переменных Towny в чате, а также для работы каналов города и нации необходимо скачать и установить плагин **TownyChat.jar**.
+
+---
+
+### Использование TownyChat с другими чат-плагинами
+
+| Шаг | Действие |
+| :--- | :--- |
+| 1. | Откройте `Towny ChatConfig.yml` (находится в `\plugins\towny\settings\`). |
+| 2. | Найдите `modify_chat.enable` и установите `false`: `modify_chat.enable: 'false'` |
+| **Результат** | Глобальные каналы (`GLOBAL`) из `channels.yml` не будут изменяться Towny, оставляя форматирование другому чат-плагину. |
+
+---
+
+### Использование TownyChat без других чат-плагинов
+
+| Шаг | Действие |
+| :--- | :--- |
+| 1. | Откройте `Towny ChatConfig.yml`. |
+| 2. | Найдите `modify_chat.enable` и установите `true`: `modify_chat.enable: 'true'` |
+| 3. | Настройте формат чата с помощью параметров, описанных ниже. |
+
+---
+
+### ChatConfig.yml
+
+Основной конфигурационный файл чата Towny — `ChatConfig.yml`, расположенный в `\plugins\towny\settings\`.
+
+#### Форматы чата Towny
+
+Для составления строк `Channel_format` используются следующие компоненты (плейсхолдеры):
+
+```
+  {worldname} - Displays the world the player is currently in.
+  
+  {town} - Displays town name if a member of a town.
+  {townformatted} - Displays town name (if a member of a town) using tag_format.town.
+  {towntag} - Displays the formated town tag (if a member of a town) using modify_chat.tag_format.town.
+  {towntagoverride} - Displays the formated town tag (if a member of a town and present) or falls back to the full name (using modify_chat.tag_format.town).
+   
+  {nation} - Displays nation name if a member of a nation.
+  {nationformatted} - Displays nation name (if a member of a nation) using tag_format.town.
+  {nationtag} - Displays the formated nation tag (if a member of a nation) using modify_chat.tag_format.nation.
+  {nationtagoverride} - Displays the formated nation tag (if a member of a nation and present) or falls back to the full name (using modify_chat.tag_format.nation).
+   
+  {townytag} - Displays the formated town/nation tag as specified in modify_chat.tag_format.both.
+  {townyformatted} - Displays the formated full town/nation names as specified in modify_chat.tag_format.both.
+  {townytagoverride} - Displays the formated town/nation tag (if present) or falls back to the full names (using modify_chat.tag_format.both).
+   
+  {title} - Towny resident Title
+  {surname} - Towny resident surname
+  {townynameprefix} - Towny name prefix taken from the townLevel/nationLevels
+  {townynamepostfix} - Towny name postfix taken from the townLevel/nationLevels.
+  {townyprefix} - Towny resident title, or townynameprefix if no title exists
+  {townypostfix} - Towny resident surname, or townynamepostfix if no surname exists
+   
+  {townycolor} - Towny name colour for nation leader/mayor/resident
+  {group} - Players group name pulled from your permissions plugin
+  {permprefix} - Permission group prefix
+  {permsuffix} - Permission group suffix.
+  {permuserprefix} - Permission group prefix
+  {permusersuffix} - Permission group suffix.
+   
+  {playername} - Default player name.
+  {modplayername} - Modified player name (use if Towny is over writing some other plugins changes).
+  {msg} - The message sent.
+
+  {channelTag} - Defined in the channels entry in Channels.yml
+  {msgcolour} - Defined in the channels entry in Channels.yml
+```
+
+| Параметр | Описание |
+| :--- | :--- |
+| `spam_time: 0.5` | Контроль спама сообщений (интервал между сообщениями в секундах). |
+| `channel_formats` | Определяет внешний вид каждого чат-канала. |
+| `tag_formats` | Определяет, как будут выглядеть теги. |
+| `colour` | Настройка цветов, применяемых через `{townycolor}` для мэров, лидеров наций и жителей. |
+| `modify_chat` | Позволяет полностью отключить все модификации чата со стороны Towny. |
+| `per_world: true` | Включает секцию `worlds:` для изменения каналов на основе миров. |
+
+---
+
+### 💬 Чат-каналы (Chat Channels)
+
+Настраиваются в файле `Channels.yml` в `\plugins\towny\settings\Channels.yml`. По умолчанию доступно шесть каналов, но администратор может создать любое количество новых. В `Channels.yml` задаются команды для подключения и использования каждого канала.
+
+#### Команды быстрого доступа
+
+| Команда | Канал |
+| :--- | :--- |
+| `/g` | Общий / глобальный чат (General/Global). |
+| `/l` или `/lc` | Локальный чат (Local). |
+| `/tc` | Городской чат (Town). |
+| `/nc` | Национальный чат (Nation). |
+| `/ac` | Чат альянса (Alliance — нация + союзники). |
+| `/a` или `/admin` | Административный чат (Admin). |
+| `/m` или `/mod` | Модераторский чат (Mod). |
+
+Без текста после команды игрок просто подключается к каналу.
+
+#### Настройки каналов
+
+| Параметр | Описание |
+| :--- | :--- |
+| **Теги** | Задаются для каждого канала и используются в `ChatConfig.yml` через `{channelTag}`. |
+| **Права** | Для каждого канала можно задать ноду доступа. |
+| **Радиус слышимости** | `-1` — без ограничений, `0` — только в том же мире, положительное число — радиус в том же мире. |
+
+---
+
+### 🔌 Автоматическое подключение к каналам при входе
+
+Используя info/option/meta-ноды в плагинах прав (GroupManager, PEX, bPermissions), можно автоматически помещать игроков в каналы при заходе на сервер.
+Нода добавляется в той же секции, где задаются `prefix` и `suffix`.
+
+---
+
+## 🏷️ Титулы и суффиксы Towny (Towny Titles and Surnames)
+
+### Команды для лидеров наций
+
+| Команда | Описание |
+| :--- | :--- |
+| `/nation set title {житель} {текст}` | Добавляет префикс (титул) к имени игрока. |
+| `/nation set surname {житель} {текст}` | Добавляет суффикс (фамилию) к имени игрока. |
+
+### Команды для мэров городов
+
+| Команда | Описание |
+| :--- | :--- |
+| `/town set title {житель} {текст}` | Добавляет префикс (титул) к имени жителя. |
+| `/town set surname {житель} {текст}` | Добавляет суффикс к имени жителя. |
+
+> Титул/суффикс, выданный мэру, переопределяет `MayorPrefix`/`MayorPostfix` из `townLevels` конфига, но сохраняет цвет имени мэра (по умолчанию голубой).
+
+### Ограничение цветовых кодов
+
+| Действие | Настройка |
+| :--- | :--- |
+| **Полный запрет** | Изменить `name_remove_regex` в `config.yml`, убрав символ `&`: `'[^\P{M}a-zA-Z0-9._\[\]-]'` |
+| **Разрешение через право** | В `config.yml` установить `filters_colour_chat.modify_chat.does_adding_colour_codes_require_permission_node: true`. Тогда лидер нации получит право `towny.command.nation.set.title.colours`, а мэр — `towny.command.town.set.title.colours`. По умолчанию эти права никому не выдаются. |
+
+---
+
+## 🕵️ Слежка за чат-каналами (Spying on chat channels)
+
+| Способ | Команда / Право |
+| :--- | :--- |
+| **Вход в режим слежки** | `/towny spy` или `/res set mode spy` |
+| **Право на слежку** | `towny.chat.spy` (можно выдать любому игроку) |
+
+---
+
+## 🌍 Поддержка нескольких миров (Multiworld)
+
+Towny поддерживает несколько миров. Для каждого мира создаётся файл с настройками: `\plugins\towny\data\worlds\worldname.txt`. Список миров хранится в `\towny\data\worlds.txt`.
+
+---
+
+### 🎚️ Переключатели миров (World Toggles)
+
+Управляются командой `/townyworld toggle` (или `/tw toggle`), либо прямо в файле мира.
+
+| Команда (флаг) | Описание |
+| :--- | :--- |
+| `usingtowny` | Полностью отключает Towny в этом мире. |
+| `claimable` | Могут ли мэры захватывать участки в этом мире. |
+| `pvp` | Включает/отключает PvP в мире. |
+| `forcepvp` | Принудительно включает PvP во всех городах мира. |
+| `friendlyfire` | Включает/отключает friendly-fire (урон по своим) в мире. |
+| `explosion` | Включает/отключает взрывы в дикой местности. |
+| `forceexplosion` | Принудительно включает взрывы в городах мира. |
+| `fire` | Включает/отключает распространение огня в дикой местности. |
+| `forcefire` | Принудительно включает распространение огня в городах. |
+| `townmobs` | Включает/отключает удаление мобов в городах (список мобов: `town_mob_removal_entities`). |
+| `worldmobs` | Включает/отключает удаление мобов по всему миру (список: `world_mob_removal_entities`). |
+| `wildernessmobs` | Включает/отключает удаление мобов в дикой местности (список: `wilderness_mob_removal_entities`). |
+| `revertunclaim` | Включает/отключает откат участка при снятии привата в этом мире. |
+| `revertentityexpl` | Включает/отключает восстановление от взрывов сущностей в дикой местности. |
+| `revertblockexpl` | Включает/отключает восстановление от взрывов блоков в дикой местности. |
+| `plotcleardelete` | Разрешает/запрещает игрокам использовать `/plot clear` на своих участках. |
+| `unclaimblockdelete {on/off}` | Включает/отключает удаление блоков при снятии привата в этом мире. |
+| `warallowed` | Разрешает/запрещает проведение войны (Event War) в этом мире. |
+| `wildernessuse` | Разрешает/запрещает игрокам строить/ломать/использовать/переключать в дикой местности. |
+
+## 🏷️ Титулы и суффиксы Towny (Towny Titles and Surnames)
+
+### Команды для лидеров наций
+
+| Команда | Описание |
+| :--- | :--- |
+| `/nation set title {житель} {текст}` | Добавляет префикс (титул) к имени игрока. |
+| `/nation set surname {житель} {текст}` | Добавляет суффикс (фамилию) к имени игрока. |
+
+### Команды для мэров городов
+
+| Команда | Описание |
+| :--- | :--- |
+| `/town set title {житель} {текст}` | Добавляет префикс (титул) к имени жителя. |
+| `/town set surname {житель} {текст}` | Добавляет суффикс к имени жителя. |
+
+> Титул/суффикс, выданный мэру, переопределяет `MayorPrefix`/`MayorPostfix` из `townLevels` конфига, но сохраняет цвет имени мэра (по умолчанию голубой).
+
+### Ограничение цветовых кодов
+
+| Действие | Настройка |
+| :--- | :--- |
+| **Полный запрет** | Изменить `name_remove_regex` в `config.yml`, убрав символ `&`: `'[^\P{M}a-zA-Z0-9._\[\]-]'` |
+| **Разрешение через право** | В `config.yml` установить `filters_colour_chat.modify_chat.does_adding_colour_codes_require_permission_node: true`. Тогда лидер нации получит право `towny.command.nation.set.title.colours`, а мэр — `towny.command.town.set.title.colours`. По умолчанию эти права никому не выдаются. |
+
+---
+
+## 🕵️ Слежка за чат-каналами (Spying on chat channels)
+
+| Способ | Команда / Право |
+| :--- | :--- |
+| **Вход в режим слежки** | `/towny spy` или `/res set mode spy` |
+| **Право на слежку** | `towny.chat.spy` (можно выдать любому игроку) |
+
+---
+
+## 🌍 Поддержка нескольких миров (Multiworld)
+
+Towny поддерживает несколько миров. Для каждого мира создаётся файл с настройками: `\plugins\towny\data\worlds\worldname.txt`. Список миров хранится в `\towny\data\worlds.txt`.
+
+### 🎚️ Переключатели миров (World Toggles)
+
+Управляются командой `/townyworld toggle` (или `/tw toggle`), либо прямо в файле мира.
+
+| Команда (флаг) | Описание |
+| :--- | :--- |
+| `usingtowny` | Полностью отключает Towny в этом мире. |
+| `claimable` | Могут ли мэры захватывать участки в этом мире. |
+| `pvp` | Включает/отключает PvP в мире. |
+| `forcepvp` | Принудительно включает PvP во всех городах мира. |
+| `friendlyfire` | Включает/отключает friendly-fire (урон по своим) в мире. |
+| `explosion` | Включает/отключает взрывы в дикой местности. |
+| `forceexplosion` | Принудительно включает взрывы в городах мира. |
+| `fire` | Включает/отключает распространение огня в дикой местности. |
+| `forcefire` | Принудительно включает распространение огня в городах. |
+| `townmobs` | Включает/отключает удаление мобов в городах (список мобов: `town_mob_removal_entities`). |
+| `worldmobs` | Включает/отключает удаление мобов по всему миру (список: `world_mob_removal_entities`). |
+| `wildernessmobs` | Включает/отключает удаление мобов в дикой местности (список: `wilderness_mob_removal_entities`). |
+| `revertunclaim` | Включает/отключает откат участка при снятии привата в этом мире. |
+| `revertentityexpl` | Включает/отключает восстановление от взрывов сущностей в дикой местности. |
+| `revertblockexpl` | Включает/отключает восстановление от взрывов блоков в дикой местности. |
+| `plotcleardelete` | Разрешает/запрещает игрокам использовать `/plot clear` на своих участках. |
+| `unclaimblockdelete {on/off}` | Включает/отключает удаление блоков при снятии привата в этом мире. |
+| `warallowed` | Разрешает/запрещает проведение войны (Event War) в этом мире. |
+| `wildernessuse` | Разрешает/запрещает игрокам строить/ломать/использовать/переключать в дикой местности. |
+
+---
+
+## 🔐 Ноды прав (Permission Nodes)
+
+Towny имеет встроенную систему прав **TownyPerms**, настраиваемую в файле `towny\settings\townyperms.yml`. Ноды автоматически выдаются игрокам в зависимости от их роли, пока они находятся в мире с включённым Towny.
+
+### Базовые роли (присваиваются автоматически)
+
+| Роль | Кто получает |
+| :--- | :--- |
+| **Nomad** | Игроки без города. |
+| **Resident** | Игроки, состоящие в городе. |
+| **Mayor** | Владельцы городов. |
+| **King** | Владельцы наций. |
+
+### Дополнительные ранги (назначаются мэрами/лидерами)
+
+| Ранг | Назначение |
+| :--- | :--- |
+| **Town Assistant** | `/town rank add {игрок} assistant` |
+| **Nation Assistant** | `/nation rank add {игрок} assistant` |
+| **Прочие** | Любые ранги, созданные админом в `townyperms.yml` (банкир, строитель, приглашающий и т.д.) |
+
+### Просмотр и назначение рангов
+
+| Команда | Описание |
+| :--- | :--- |
+| `/town ranklist` | Показать ранги в городе. |
+| `/town rank add {игрок} {ранг}` | Назначить ранг жителю. |
+| `/town rank remove {игрок} {ранг}` | Снять ранг с жителя. |
+| `/nation rank add {игрок} {ранг}` | Назначить ранг в нации. |
+| `/nation rank remove {игрок} {ранг}` | Снять ранг в нации. |
+
+### Приоритеты и префиксы рангов (с 0.99.1.0)
+
+| Нода | Описание |
+| :--- | :--- |
+| `towny.rankpriority.#` | Приоритет ранга (чем выше число, тем выше приоритет). |
+| `towny.rankprefix.&a` | Префикс, добавляемый к имени игрока с этим рангом. |
+
+> Пример: Assistant (`priority 100`, префикс `&a`), Sheriff (`priority 500`, префикс `&b`). Если у игрока оба ранга, отобразится префикс Sheriff.
+
+### Редактирование townyperms в игре (с 0.97.1.0)
+
+| Команда | Описание |
+| :--- | :--- |
+| `/ta townyperms ?` | Показать доступные команды управления `townyperms.yml` в игре. |
+
+### Важно
+
+Если вы планируете создать ресурсный мир без приватов, не отключайте Towny полностью (`/tw toggle usingtowny`), а сделайте мир **неприватизируемым** (`/tw toggle claimable`). Так игроки сохранят права из TownyPerms, но не смогут захватывать землю.
+
+Полный список всех нод прав можно найти на [странице Permission Nodes](https://github.com/TownyAdvanced/Towny/wiki/Permission-Nodes).
+
+---
+
+## 🌐 Мультиязычность (Multi Language)
+
+Towny поддерживает несколько языков. Переводы выполняются сообществом на [Crowdin](https://crowdin.com/project/townyadvanced). Если вашего языка нет — запросите его на Discord или в Issue.
+
+### Как это работает
+
+- Язык сообщений Towny определяется по языку, установленному в клиенте Minecraft игрока.
+- Администратор может задать язык по умолчанию в `config.yml` (параметр `language: english`). Он используется для консольных сообщений и для игроков, чей язык не поддерживается.
+
+### Переопределение языковых строк
+
+| Папка | Назначение |
+| :--- | :--- |
+| `towny\settings\lang\override\global.yml` | Строки из этого файла переопределяют переводы для **всех** языков. Полезно для изменения префикса Towny, цветов статусных экранов и т.д. |
+| `towny\settings\lang\override\` | Можно добавить файл конкретного языка (например, `ru-RU.yml`), чтобы переопределить перевод только для него. |
+
+> ⚠️ **Важно:** Изменение файлов в `towny\settings\lang\reference\` **не** влияет на игру. Используйте только папку `override`.
+
+### Перевод команд (с 0.99.6.0)
+
+Вся система справки по командам (`/towny ?`, `/town ?` и т.д.) теперь доступна для перевода.
