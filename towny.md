@@ -1170,3 +1170,129 @@
 | `towny.ranklimit.5` | Ранг можно выдать не более 5 раз в рамках города или нации. |
 
 ---
+
+## 🏷️ Настройка титулов мэра и национального лидера, а также названий городов и стран
+
+Towny позволяет настраивать схему именования мэров, лидеров наций, городов, столиц и наций через два раздела в файле `config.yml`.
+
+---
+
+## 📊 Настройка уровней города и нации
+
+### 🏙️ Уровень города (`town_level`)
+
+Пример структуры уровня города:
+
+```yaml
+  - numResidents: 1
+    namePrefix: ''
+    namePostfix: ' (Settlement)'
+    mayorPrefix: 'Hermit '
+    mayorPostfix: ''
+    townBlockBuyBonusLimit: 0
+    townBlockLimit: 16
+    upkeepModifier: 1.0
+    townOutpostLimit: 0
+    debtCapModifier: 1.0
+    peacefulCostMultiplier: 1.0
+    bankCapModifier: 1.0
+    resourceProductionModifier: 1.0
+    townBlockTypeLimits:
+    - shop: 2
+    - arena: 2
+
+  - numResidents: 2
+    namePrefix: ''
+    namePostfix: ' (Hamlet)'
+    mayorPrefix: 'Chief '
+    mayorPostfix: ''
+    townBlockBuyBonusLimit: 0
+    townBlockLimit: 32
+    upkeepModifier: 1.0
+    townOutpostLimit: 1
+    debtCapModifier: 1.0
+    peacefulCostMultiplier: 1.0
+    bankCapModifier: 1.0
+    resourceProductionModifier: 1.0
+    townBlockTypeLimits:
+    - shop: 5
+    - arena: 4
+
+### Пояснение переменных `town_level`
+
+| Переменная | Описание |
+| :--- | :--- |
+| `numResidents: 1` | Количество жителей, необходимое городу для достижения данного уровня `town_level`. Может определяться количеством TownBlocks, если `global_town_settings.town_level_is_determined_by_townblock_count_instead_of_resident_count: true`. |
+| `namePrefix: ''` | Добавляется **перед** названием города. |
+| `namePostfix: ' (Settlement)'` | Добавляется **после** названия города. |
+| `mayorPrefix: 'Hermit '` | Добавляется **перед** именем мэра. |
+| `mayorPostfix: ''` | Добавляется **после** имени мэра. |
+| `townBlockBuyBonusLimit: 0` | Максимальное количество бонусных участков, которые город может купить через `/town buy bonus`. Требует `town.max_purchased_blocks_uses_town_levels: true`. |
+| `townBlockLimit: 16` | Переопределяет `town_block_ratio` и задаёт точное количество городских участков. Требует `town_block_ratio: '0'`. |
+| `upkeepModifier: 1.0` | Множитель стоимости содержания города. При `town_plotbased_upkeep: true` влияет только если `town_plotbased_upkeep_affected_by_town_level_modifier: true`. |
+| `townOutpostLimit: 1` | Лимит аванпостов. Требует `limit_outposts_using_town_and_nation_levels: true`. |
+| `debtCapModifier: 1.0` | Множитель лимита задолженности. При `debt_cap_uses_town_levels: true` финальный лимит = `debt_cap.override` × `debtCapModifier`. |
+| `peacefulCostMultiplier: 1.0` | Влияет на стоимость нейтралитета города (цена населения × `economy.price_town_neutrality`). |
+| `resourceProductionModifier: 1.0` | Изменяет количество ресурсов, ежедневно получаемых городом (плагин TownyResources). |
+| `bankCapModifier: 1.0` | Множитель лимита банка города (население × `economy.banks.town_bank_cap`). |
+| `townBlockTypeLimits` | Список ограничений на количество участков каждого типа (например, `shop: 2`). Может быть пустым `[]`. |
+
+👉 В примере: при 1 жителе город получает суффикс `(Settlement)`, мэр — префикс `Hermit`. При 2 жителях — `(Hamlet)` и префикс `Chief`.
+
+---
+
+### 🚩 Уровень нации (nation_level)
+
+Пример структуры уровня города:
+
+```yaml
+        -   numResidents: 10
+            capitalPrefix: ''
+            capitalPostfix: ''
+            namePrefix: 'Federation of '
+            namePostfix: ' (Nation)'
+            kingPrefix: 'Count '
+            kingPostfix: ''
+            townBlockLimitBonus: 10
+            upkeepModifier: 1.0
+            nationTownUpkeepModifier: 1.0
+            nationZonesSize: 1
+            nationBonusOutpostLimit: 2
+            peacefulCostMultiplier: 1.0
+            bankCapModifier: 1.0
+
+        -   numResidents: 20
+            capitalPrefix: ''
+            capitalPostfix: ''
+            namePrefix: 'Dominion of '
+            namePostfix: ' (Nation)'
+            kingPrefix: 'Duke '
+            kingPostfix: ''
+            townBlockLimitBonus: 20
+            upkeepModifier: 1.0
+            nationTownUpkeepModifier: 1.0
+            nationZonesSize: 2
+            nationBonusOutpostLimit: 3
+            peacefulCostMultiplier: 1.0
+            bankCapModifier: 1.0
+
+### Пояснение переменных `nation_level`
+
+| Переменная | Описание |
+| :--- | :--- |
+| `numResidents: 10` | Количество жителей, необходимое нации для достижения данного уровня `nation_level`. Может определяться количеством городов, если `global_nation_settings.nation_level_is_determined_by_town_count_instead_of_resident_count: true`. |
+| `capitalPrefix: ''` | Добавляется **перед** названием столицы нации. |
+| `capitalPostfix: ''` | Добавляется **после** названия столицы нации. |
+| `namePrefix: 'Federation of '` | Добавляется **перед** названием нации. |
+| `namePostfix: ' (Nation)'` | Добавляется **после** названия нации. |
+| `kingPrefix: 'Count '` | Добавляется **перед** именем лидера нации. |
+| `kingPostfix: ''` | Добавляется **после** имени лидера нации. |
+| `townBlockLimitBonus: 10` | Количество бонусных участков, которые получает каждый город при вступлении в нацию. |
+| `upkeepModifier: 1.0` | Множитель стоимости содержания нации (работает как и в городе, если не используется `town_plotbased_upkeep`). |
+| `nationTownUpkeepModifier: 1.0` | Множитель стоимости содержания города, если он состоит в нации. Применяется после всех остальных модификаторов. `1.0` — без изменений. |
+| `nationZonesSize: 2` | Ширина национальной зоны вокруг городов нации. |
+| `nationBonusOutpostLimit: 2` | Дополнительные аванпосты, которые город может занять сверх обычного лимита. |
+| `peacefulCostMultiplier: 1.0` | Влияет на стоимость нейтралитета нации (население нации × `economy.price_nation_neutrality`). |
+| `bankCapModifier: 1.0` | Множитель лимита банка нации (население нации × `economy.banks.nation_bank_cap`). |
+
+👉 В примере: при 10 жителях нация получает префикс `Federation of` и суффикс `(Nation)`, лидер — префикс `Count`. При 20 жителях — префикс `Dominion of`, лидер — `Duke`.
