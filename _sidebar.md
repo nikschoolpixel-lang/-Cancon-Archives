@@ -2,7 +2,7 @@
   - [Главная страница](README.md)
 
 - **О сервере**
-  - [Инструменты](sga-converter.md)
+  - [Инструменты](tools/sga-converter.md)
   - [Команды Towny](towny.md)
 
 - **Фракции и Кланы**
